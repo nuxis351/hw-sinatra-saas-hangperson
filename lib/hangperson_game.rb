@@ -30,4 +30,18 @@ class HangpersonGame
     }
   end
 
+  def word_with_guesses
+    copy = self.word.dup
+    if(self.guesses.length.zero?)
+      copy.gsub!(/[a-z]/,'-')
+    else
+      copy.split('').each_with_index do | word_letter, index |
+        self.guesses.split('').each do |letter|
+          copy[index] = '_' unless letter.equal? word_letter
+        end
+      end
+    end
+    copy
+  end
+
 end
