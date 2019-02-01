@@ -43,10 +43,10 @@ class HangpersonApp < Sinatra::Base
     begin
       guess_success = @game.guess(letter)
     rescue ArgumentError => e
-      flash[:message] = e.message
+      flash[:message] = "Invalid guess."
     end
     if(guess_success == false)
-      flash[:message] = "You have already used that letter"
+      flash[:message] = "You have already used that letter."
     end
 
     redirect '/show'
