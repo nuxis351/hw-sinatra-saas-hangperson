@@ -39,7 +39,7 @@ class HangpersonGame
         copy[index] = '-' unless self.guesses.include? word_letter
       end
     end
-    copy + self.word
+    copy #+ self.word
   end
 
   def guess(letter)
