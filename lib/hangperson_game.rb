@@ -35,13 +35,36 @@ class HangpersonGame
     if(self.guesses.length.zero?)
       copy.gsub!(/[a-z]/,'-')
     else
-      copy.split('').each_with_index do | word_letter, index |
-        self.guesses.split('').each do |letter|
-          copy[index] = '_' unless letter.equal? word_letter
-        end
+      copy.split('').each_with_index do |word_letter, index|
+        copy[index] = '-' unless self.guesses.include? word_letter
       end
     end
-    copy
+    copy + self.word
   end
 
+  def guess(letter)
+    raise ArgumentError.new("Guess cannot be empty") if letter.equal?('') || letter.nil?
+    raise ArgumentError.new("Guess must be a letter") unless letter.match(/^[A-z]/)
+
+    letter.downcase!
+    return false unless (!self.guesses.include? letter) && (!self.wrong_guesses.include? letter)
+    if @word.include? letter
+      self.guesses << letter
+    else
+      self.wrong_guesses << letter
+    end
+    true
+  end
+
+  def check_win_or_lose
+    if self.word_with_guesses.include? '-'
+      if(wrong_guesses.length > 6)
+        return :lose
+      else
+        return :play
+      end
+    else
+      :win
+    end
+  end
 end
